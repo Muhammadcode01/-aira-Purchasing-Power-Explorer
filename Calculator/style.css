@@ -1,0 +1,636 @@
+/* --- Global & Variable Definitions --- */
+:root {
+    /* Colors */
+    --primary-green: #008753; /* Nigerian Green */
+    --accent-gold: #FFC72C;  /* Nigerian Gold */
+    --dark-text: #212529;
+    --light-text: #f8f9fa;
+    --background-light: #f4f7f6;
+    --background-dark: #e8eceb;
+    --card-background: #ffffff;
+    --border-color: #dee2e6;
+    --shadow-light: rgba(0, 0, 0, 0.08);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+    --success-color: #28a745; /* For positive remaining, progress bar */
+    --error-color: #dc3545; /* For negative remaining, progress bar */
+    --info-color: #007bff;
+    --warning-color: #ffc107; /* For progress bar when near limit */
+    --filter-background: #ffffff; /* White for unselected */
+    --filter-border-unselected: #ced4da; /* Light border for unselected */
+    --filter-active-text: #fff;
+    --clear-button-bg: #6c757d; /* Muted grey for clear button */
+    --clear-button-hover: #5a6268;
+    --progress-bar-bg-empty: #e0e0e0;
+}
+
+/* Fonts */
+/* --font-heading: 'Poppins', sans-serif; */
+/* --font-body: 'Lato', sans-serif; */
+
+/* Transitions */
+/* --transition-fast: all 0.2s ease-in-out; */
+/* --transition-medium: all 0.3s ease-in-out; */
+/* --transition-long: all 0.5s ease-in-out; */
+
+/* --- Base Styles --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background: linear-gradient(135deg, var(--background-light) 0%, var(--background-dark) 100%);
+    color: var(--dark-text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align to top for larger content */
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* --- App Container --- */
+.app-container {
+    max-width: 750px; /* Increased max-width for more content */
+    width: 100%;
+    background: var(--card-background);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px var(--shadow-medium);
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    transition: var(--transition-medium);
+    animation: fadeInScale 0.6s ease-out forwards;
+}
+
+/* --- Header --- */
+.app-header {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.app-header h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    color: var(--primary-green);
+    margin-bottom: 8px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.app-header .subtitle {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    color: var(--dark-text);
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+/* --- Input Section --- */
+.input-section {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+/* Group for Input and Clear button */
+.input-actions-group {
+    display: flex;
+    flex-grow: 1;
+    gap: 10px; /* Space between input and clear button */
+    max-width: 350px; /* Max width for this group */
+}
+
+
+input[type="number"] {
+    flex-grow: 1; /* Allows input to take up available space */
+    padding: 14px 20px;
+    font-size: 1.1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    outline: none;
+    transition: var(--transition-fast);
+    font-weight: 400;
+    color: var(--dark-text);
+    background-color: var(--background-light);
+    box-shadow: inset 0 1px 3px var(--shadow-light);
+    min-width: 120px; /* Ensure input is not too small */
+}
+
+input[type="number"]::placeholder {
+    color: var(--dark-text);
+    opacity: 0.6;
+}
+
+input[type="number"]:focus {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 4px rgba(0, 135, 83, 0.2); /* Soft focus ring */
+    background-color: var(--card-background);
+}
+
+button {
+    padding: 14px 25px;
+    background: var(--primary-green);
+    color: var(--light-text);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    box-shadow: 0 5px 15px rgba(0, 135, 83, 0.3);
+}
+
+button:hover {
+    background: #007045; /* Darker green for hover */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 135, 83, 0.4);
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 135, 83, 0.2);
+}
+
+/* Clear All Button specific styles */
+.clear-button {
+    background: var(--clear-button-bg);
+    color: var(--light-text); /* Light text for contrast */
+    box-shadow: none; /* No strong shadow */
+    font-size: 1.1rem; /* Same font size as calculate button */
+    padding: 14px 25px; /* Same padding as calculate button */
+    min-width: unset; /* Override default input min-width */
+    font-family: var(--font-heading); /* Same font as calculate */
+    font-weight: 600; /* Same font weight as calculate */
+}
+
+.clear-button:hover {
+    background: var(--clear-button-hover); /* Darker grey on hover */
+    transform: translateY(-2px); /* Same hover effect as calculate */
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.3); /* Subtle shadow */
+}
+
+.clear-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(108, 117, 125, 0.2);
+}
+
+/* Ensure button sizes are consistent */
+.input-section button, .input-actions-group button {
+    flex-shrink: 0; /* Prevent buttons from shrinking too much */
+}
+
+
+/* --- Quick Budget Section --- */
+.quick-budget-section {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.quick-budget-section h3 {
+    font-family: var(--font-heading);
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    color: var(--dark-text);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.quick-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.quick-budget-btn {
+    background: var(--accent-gold);
+    color: var(--dark-text);
+    padding: 10px 18px;
+    border: none;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    box-shadow: 0 2px 5px rgba(255, 199, 44, 0.3);
+}
+
+.quick-budget-btn:hover {
+    background: #e6b327; /* Darker gold for hover */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 199, 44, 0.4);
+}
+
+.quick-budget-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(255, 199, 44, 0.2);
+}
+
+
+/* --- Categories Section --- */
+.categories-section {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.categories-section h2 {
+    font-family: var(--font-heading);
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    color: var(--dark-text);
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.filter-button {
+    background: var(--filter-background); /* White for unselected */
+    color: var(--dark-text);
+    padding: 10px 18px;
+    border: 1px solid var(--filter-border-unselected); /* Light grey border for unselected */
+    border-radius: 25px; /* Pill shape */
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    white-space: nowrap; /* Prevent text wrapping inside button */
+}
+
+.filter-button:hover:not(.active) {
+    background: #f0f0f0; /* Slightly off-white on hover for unselected */
+    border-color: #a0a8b1; /* Darker border on hover */
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px var(--shadow-light);
+}
+
+.filter-button.active {
+    background: var(--primary-green);
+    color: var(--filter-active-text);
+    border-color: var(--primary-green);
+    box-shadow: 0 4px 10px rgba(0, 135, 83, 0.3);
+    transform: translateY(-1px);
+}
+
+
+/* --- Message Display --- */
+.message-display {
+    text-align: center;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 1rem;
+    min-height: 50px; /* Give it space even when empty */
+    display: flex; /* Use flex to center text vertically */
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+}
+
+.message-display.show {
+    opacity: 1;
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+.message-display.error {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: var(--error-color);
+    border: 1px solid var(--error-color);
+}
+
+.message-display.info {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: var(--info-color);
+    border: 1px solid var(--info-color);
+}
+
+
+/* --- Budget Progress Bar --- */
+.budget-progress-container {
+    width: 100%;
+    background-color: var(--progress-bar-bg-empty);
+    border-radius: 10px;
+    height: 30px;
+    margin-top: 20px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark-text); /* Default text color over empty bar */
+    transition: var(--transition-long);
+    opacity: 0; /* Hidden by default */
+    transform: translateY(10px);
+}
+
+.budget-progress-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.budget-progress-bar {
+    height: 100%;
+    width: 0%; /* Controlled by JS */
+    background-color: var(--success-color); /* Default green */
+    transition: width var(--transition-long), background-color var(--transition-medium);
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+/* Progress bar color states */
+.budget-progress-bar.warning { background-color: var(--warning-color); }
+.budget-progress-bar.error { background-color: var(--error-color); }
+
+.budget-progress-text {
+    position: relative; /* Stays above the bar */
+    z-index: 1;
+    mix-blend-mode: difference; /* Helps text stand out against changing background */
+    color: var(--light-text); /* Force light text over coloured bar */
+    text-shadow: 0 0 3px rgba(0,0,0,0.5); /* For readability */
+}
+
+
+/* --- Basket Display --- */
+.basket-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    opacity: 0; /* Hidden by default */
+    transform: translateY(20px);
+    transition: var(--transition-medium);
+}
+
+.basket-section.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.basket-category-header {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--dark-text);
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted var(--border-color);
+}
+
+.basket-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Responsive grid */
+    gap: 15px;
+    min-height: 80px; /* Ensure some height even if empty */
+    align-items: flex-start;
+    justify-items: center; /* Center items within their grid cells */
+}
+
+.item-card {
+    background: var(--background-light);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px var(--shadow-light);
+    text-align: center;
+    width: 100%; /* Take full width of grid cell */
+    transition: var(--transition-medium);
+    animation: slideInUp 0.5s ease-out forwards; /* Individual item animation */
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 18px var(--shadow-medium);
+}
+
+.item-card .item-name {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--primary-green);
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.item-card .item-details {
+    font-size: 0.95rem;
+    color: var(--dark-text);
+    font-weight: 400;
+}
+
+.item-card .item-details strong {
+    color: var(--accent-gold);
+    font-weight: 700;
+}
+
+/* --- Remaining Display --- */
+.remaining-display {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed var(--border-color);
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: var(--transition-medium);
+}
+
+.remaining-display.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.remaining-display.positive {
+    color: var(--success-color);
+}
+
+.remaining-display.negative {
+    color: var(--error-color);
+}
+
+/* --- Price Disclaimer --- */
+.price-disclaimer {
+    font-size: 0.85rem;
+    color: var(--dark-text);
+    opacity: 0; /* Hidden initially */
+    text-align: center;
+    margin-top: 20px;
+    line-height: 1.4;
+    transition: opacity 0.6s ease-out; /* Fade in */
+}
+
+.price-disclaimer.show {
+    opacity: 0.8;
+}
+
+/* --- Footer --- */
+.app-footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    color: var(--dark-text);
+    opacity: 0.7;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* --- Animations --- */
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+    .app-container {
+        padding: 25px;
+        gap: 20px;
+    }
+    .app-header h1 {
+        font-size: 2.2rem;
+    }
+    .app-header .subtitle {
+        font-size: 0.9rem;
+    }
+    .input-section {
+        flex-direction: column; /* Stack input and button */
+        gap: 15px;
+    }
+    .input-actions-group {
+        width: 100%; /* Ensure input group takes full width */
+        max-width: 100%;
+        flex-direction: column; /* Stack input and clear button vertically */
+    }
+    input[type="number"] {
+        max-width: 100%;
+    }
+    button {
+        width: 100%;
+    }
+    .basket-display {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Smaller cards on mobile */
+    }
+    .filter-button {
+        padding: 8px 14px;
+        font-size: 0.85rem;
+    }
+    .categories-section h2 {
+        font-size: 1.5rem;
+    }
+    .quick-budget-section h3 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-container {
+        padding: 20px;
+    }
+    .app-header h1 {
+        font-size: 1.8rem;
+    }
+    .app-header .subtitle {
+        font-size: 0.8rem;
+    }
+    .filter-buttons {
+        gap: 8px;
+    }
+    .quick-buttons {
+        gap: 8px;
+    }
+}
+/* Recommendations Section */
+#recommendationsSection {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    text-align: center; /* Center the header */
+}
+
+#recommendationsSection h2 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+}
+
+.recommendations-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center items in the grid */
+    gap: 15px;
+}
+
+.recommendations-grid p {
+    background-color: #e8f5e9; /* Light green for recommendations */
+    border-left: 5px solid #4CAF50; /* Green accent */
+    padding: 15px;
+    border-radius: 5px;
+    margin: 0; /* Remove default paragraph margin */
+    font-size: 1.1em;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    flex: 1 1 calc(50% - 15px); /* Two columns, with gap */
+    min-width: 280px; /* Minimum width for each card */
+    text-align: left; /* Align text within recommendation card */
+}
+
+.recommendations-grid p strong {
+    color: #218838; /* Darker green for emphasis */
+}
+
+/* Base hidden class for sections */
+.hidden {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.show {
+    display: block; /* Or flex, grid, etc. */
+    opacity: 1;
+    transform: translateY(0);
+}
