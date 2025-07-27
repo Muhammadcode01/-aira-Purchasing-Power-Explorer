@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>₦aira Purchasing Power Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💰</text></svg>">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>💸 Your ₦aira, Your Reality.</h1>
+            <p class="subtitle">Explore what your money can buy today in Nigeria across various categories.</p>
+        </header>
+
+        <main class="app-content">
+            <div class="input-section">
+                <div class="input-actions-group">
+                    <input type="number" id="amountInput" placeholder="Enter ₦ amount (e.g., 500)" aria-label="Enter Naira amount" min="0" />
+                    <button id="clearAllBtn" class="clear-button" aria-label="Clear amount, categories, and results">Clear All</button>
+                </div>
+                <button id="calculateBtn" aria-label="Calculate purchasing power">Calculate</button>
+            </div>
+
+            <div class="quick-budget-section">
+                <h3>⚡ Quick Checks:</h3>
+                <div class="quick-buttons">
+                    <button class="quick-budget-btn" data-amount="500">₦500</button>
+                    <button class="quick-budget-btn" data-amount="1000">₦1,000</button>
+                    <button class="quick-budget-btn" data-amount="2000">₦2,000</button>
+                    <button class="quick-budget-btn" data-amount="5000">₦5,000</button>
+                </div>
+            </div>
+
+            <div class="categories-section">
+                <h2>🛍️ What are you looking to buy?</h2>
+                <div id="categoryFilters" class="filter-buttons">
+                    </div>
+            </div>
+
+            <div id="messageDisplay" class="message-display" role="status" aria-live="polite"></div>
+
+            <div id="budgetProgressBarContainer" class="budget-progress-container">
+                <div class="budget-progress-bar" style="width: 0;"></div>
+                <span class="budget-progress-text"></span>
+            </div>
+             
+            <div id="basketSection" class="basket-section">
+                <h3 id="basketCategoryHeader" class="basket-category-header"></h3>
+                <div id="basketDisplay" class="basket-display">
+                    </div>
+            </div>
+            <section id="recommendationsSection" class="hidden">
+        <h2>Smart Recommendations</h2>
+        <div id="recommendationsDisplay" class="recommendations-grid">
+            </div>
+    </section>
+            <div id="remainingDisplay" class="remaining-display">
+                </div>
+
+            <p class="price-disclaimer">
+                *Prices are estimates and can vary significantly by location, vendor, and current market conditions. This tool is for illustrative purposes only.
+            </p>
+            
+        </main>
+
+        <footer class="app-footer">
+            <p>&copy; <span id="currentYear"></span> ₦aira Purchasing Power Explorer. All rights reserved.</p>
+            <p>Made with 💚 for the Nigerian market.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
